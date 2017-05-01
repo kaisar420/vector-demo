@@ -47,7 +47,12 @@ template <typename TT>
 void copy_construct_all(TT* dst, TT const* src, size_t size,
     typename std::enable_if<std::is_trivially_copyable<TT>::value>::type* = nullptr)
 {
-    memcpy(dst, src, size * sizeof(TT));
+    // memcpy expect dst and src to be a valid pointers even if size is 0.
+    // copy_construct_all can be called with (src == nullptr) if (size == 0)
+    // therefore we need to check for (size != 0) explicitly to prevent the
+    // undefined behavior.
+    if (size != 0)
+        memcpy(dst, src, size * sizeof(TT));
 }
 
 template <typename T>
