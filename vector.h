@@ -387,20 +387,17 @@ typename vector<T>::iterator vector<T>::end()
     return data_ + size_;
 }
 
-
 template <typename T>
 typename vector<T>::const_iterator vector<T>::begin() const
 {
     return data_;
 }
 
-
 template <typename T>
 typename vector<T>::const_iterator vector<T>::end() const
 {
     return data_ + size_;
 }
-
 
 template <typename T>
 size_t vector<T>::increase_capacity() const
