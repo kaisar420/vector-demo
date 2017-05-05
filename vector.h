@@ -12,8 +12,8 @@ template <typename TT>
 void destroy_all(TT* data, size_t size,
     typename std::enable_if<!std::is_trivially_destructible<TT>::value>::type* = nullptr)
 {
-    for (size_t i = 0; i != size; i++)
-        data[i].~TT();
+    for (size_t i = size; i != 0; --i)
+        data[i - 1].~TT();
 }
 
 template <typename TT>
