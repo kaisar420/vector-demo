@@ -34,11 +34,7 @@ void copy_construct_all(TT* dst, TT const* src, size_t size,
     }
     catch (...)
     {
-        while (i != 0)
-        {
-            dst[i - 1].~TT();
-            --i;
-        }
+        destroy_all(dst, i);
         throw;
     }
 }
@@ -366,12 +362,8 @@ typename vector<T>::iterator vector<T>::erase(iterator first, iterator last)
         ++last;
     }
 
+    destroy_all(first, last - first);
     size_ = first - data_;
-    while (first != last)
-    {
-        first->~T();
-        ++first;
-    }
 
     return result;
 }
