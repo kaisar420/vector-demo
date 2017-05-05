@@ -109,6 +109,21 @@ TEST(correctness, push_back)
     counted<size_t>::expect_no_instances();
 }
 
+TEST(correctness, push_back_from_self)
+{
+    {
+        vector<counted<size_t> > a;
+        a.push_back(42);
+        for (size_t i = 0; i != 100; ++i)
+            a.push_back(a[0]);
+
+        for (size_t i = 0; i != a.size(); ++i)
+            EXPECT_EQ(42, a[i]);
+    }
+
+    counted<size_t>::expect_no_instances();
+}
+
 TEST(correctness, subscription)
 {
     vector<int> a;
