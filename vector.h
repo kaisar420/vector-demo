@@ -429,10 +429,13 @@ void vector<T>::new_buffer(size_t new_capacity)
     assert(new_capacity >= size_);
 
     vector<T> tmp;
-    tmp.data_ = static_cast<T*>(operator new(new_capacity * sizeof(T)));
-    tmp.capacity_ = new_capacity;
-    copy_construct_all(tmp.data_, data_, size_);
-    tmp.size_ = size_;
+    if (new_capacity != 0)
+    {
+        tmp.data_ = static_cast<T*>(operator new(new_capacity * sizeof(T)));
+        tmp.capacity_ = new_capacity;
+        copy_construct_all(tmp.data_, data_, size_);
+        tmp.size_ = size_;
+    }
 
     swap(tmp);
 }

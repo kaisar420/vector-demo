@@ -407,3 +407,23 @@ TEST(correctness, reallocation_throw)
     }
     counted<size_t>::expect_no_instances();
 }
+
+TEST(correctness, empty_storage)
+{
+    vector<int> a;
+    EXPECT_EQ(nullptr, a.data());
+    vector<int> b = a;
+    EXPECT_EQ(nullptr, b.data());
+    a = b;
+    EXPECT_EQ(nullptr, a.data());
+}
+
+TEST(correctness, empty_storage_shrink_to_fit)
+{
+    vector<int> a;
+    a.push_back(5);
+    a.pop_back();
+    EXPECT_NE(nullptr, a.data());
+    a.shrink_to_fit();
+    EXPECT_EQ(nullptr, a.data());
+}
